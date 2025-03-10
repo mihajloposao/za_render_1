@@ -10,8 +10,11 @@ app = Flask(__name__)
 def qr():
     povratna = request.json 
     qr = povratna.get("qr")
-    requests.post("https://mihajlo22.pythonanywhere.com/upis",json=web_scraping(qr))
-    return {'rezultat': "USPEŠNO SKENIRANJE"}
+    response = requests.post("https://mihajlo22.pythonanywhere.com/upis",json=web_scraping(qr))
+    if response.status_code == 200:
+        return {'rezultat': "USPEŠNO SKENIRANJE"}
+    else:
+        return "",response.status_code
 
 @app.route("/",methods=["GET"])
 def home():
